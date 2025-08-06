@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import user_img from '../assets/download.png';
 import logo from '../assets/logo1.png'
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -8,18 +9,24 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center p-3 border-b border-gray-300 relative">
       <div className="ml-4 sm:ml-6 flex items-center">
-  <img
-    src={logo}
-    alt="Company Logo"
-    className="h-8 sm:h-9 md:h-9 lg:h-10 w-auto object-contain"
-  />
-</div>
+        
+        <Link to="/"><img
+          src={logo}
+          alt="Company Logo"
+          className="h-8 sm:h-9 md:h-9 lg:h-10 w-auto object-contain"
+        /></Link>
+      </div>
 
 
       {/* Small screen buttons and hamburger */}
       <div className="flex items-center gap-4 md:hidden mr-4">
 
-        <button className="p-2 bg-blue-800 text-white rounded text-sm">Book Now</button>
+        <Link
+          to="/book"
+          className="p-2 bg-blue-800 text-white rounded text-sm inline-block text-center"
+        >
+          Book Now
+        </Link>
 
         <i className="fa-regular fa-bell bg-gray-100 p-2 rounded text-sm"></i>
 
@@ -31,12 +38,17 @@ const Navbar = () => {
       {/* Desktop menu */}
       <div className="hidden md:flex items-center gap-6 mr-8">
         <ul className="flex gap-6 items-center">
-          <li>Services</li>
-          <li>Partners</li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#HIW">How It Works</a></li>
           <li>About Us</li>
-          <li>Contact</li>
+          <li><a href="#footer">Contact</a></li>
           <li>
-            <button className="p-2 bg-blue-800 text-white rounded">Book Now</button>
+            <Link
+          to="/book"
+          className="p-2 bg-blue-800 text-white rounded text-sm inline-block text-center"
+        >
+          Book Now
+        </Link>
           </li>
           <li>
             <i className="fa-regular fa-bell bg-gray-100 p-2 rounded"></i>
@@ -70,10 +82,10 @@ const Navbar = () => {
             </li>
 
             {/* Navigation Links */}
-            <li className="hover:text-blue-700 transition">Services</li>
-            <li className="hover:text-blue-700 transition">Partners</li>
+            <li className="hover:text-blue-700 transition"><a href="#services">Services</a></li>
+            <li className="hover:text-blue-700 transition"><a href="#HIW">How It Works</a></li>
             <li className="hover:text-blue-700 transition">About Us</li>
-            <li className="hover:text-blue-700 transition">Contact</li>
+            <li className="hover:text-blue-700 transition"><a href="#footer">Contact</a></li>
           </ul>
         </div>
 

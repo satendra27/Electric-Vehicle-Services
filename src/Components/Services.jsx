@@ -29,7 +29,7 @@ const Services = () => {
   ];
 
   return (
-    <div className="px-2 sm:px-4 md:px-6 lg:px-12 py-10 bg-[#f9f9f9]">
+    <div className="px-2 sm:px-4 md:px-6 lg:px-12 py-6 bg-[#f9f9f9] " id='services'>
       <div className="p-2 bg-blue-300 w-fit mx-auto rounded text-blue-700 font-medium text-sm sm:text-base">
         <h2>🔧 Our Premium Services</h2>
       </div>
