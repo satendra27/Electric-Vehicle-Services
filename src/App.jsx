@@ -8,6 +8,7 @@ import Services from './Components/Services'
 import Steps from './Components/Steps'
 import Footer from './Components/Footer'
 import Book from './Components/Book'
+import ServiceForm from './Components/ServiceForm'
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
     }
   />
   <Route path="book" element={<Book />} />
+  <Route path="Services" element={<ServiceForm/>}/>
 </Routes>
 
         <Footer />
