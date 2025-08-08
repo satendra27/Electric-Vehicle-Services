@@ -57,20 +57,24 @@ const BookingStep4 = ({
       </div>
 
       {/* Buttons */}
-      <div className="flex justify-between">
-        <button
-          onClick={() => setStep(3)}
-          className="border border-gray-500 py-1 px-3 rounded-lg shadow-sm"
-        >
-         <i className="fa-solid fa-arrow-left"></i> Previous
-        </button>
-        <button
-          onClick={handleConfirmBooking}
-          className="px-6 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 flex items-center"
-        >
-          <i className="fa-solid fa-credit-card mr-2"></i> Confirm Booking
-        </button>
-      </div>
+      <div className="flex justify-between mt-6 flex-wrap">
+  <button
+    className="border border-gray-500 py-1 px-3 rounded-lg shadow-sm 
+               sm:w-auto w-full mb-2 sm:mb-0"
+    onClick={() => setStep((prev) => Math.max(1, prev - 1))}
+  >
+    <i className="fa-solid fa-arrow-left"></i> Previous
+  </button>
+
+  <button
+    className="border border-gray-500 py-1 px-3 rounded-lg shadow-sm bg-blue-700 text-white 
+               sm:w-auto w-full"
+    onClick={handleConfirmBooking}
+  >
+    <i className="fa-solid fa-credit-card mr-2"></i> Confirm Booking 
+  </button>
+</div>
+
     </div>
   );
 };
