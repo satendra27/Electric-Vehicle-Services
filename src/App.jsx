@@ -9,29 +9,37 @@ import Steps from './Components/Steps'
 import Footer from './Components/Footer'
 import Book from './Components/Book'
 import ServiceForm from './Components/ServiceForm'
+import Login from './Components/Login'
 
 const App = () => {
   return (
     <div>
-      <Navbar/>
       <Routes>
   <Route
     path="/"
     element={
       <>
+      <Navbar/>
         <Header />
         <Data />
         <Services />
         <Features />
         <Steps />
+        <Footer />
       </>
     }
   />
-  <Route path="book" element={<Book />} />
+  <Route path="book" element={
+    <>
+    <Navbar/>
+    <Book />
+    <Footer/>
+     </>
+    }/>
   <Route path="Services" element={<ServiceForm/>}/>
+      <Route path='Login' element={<Login/>}/>
 </Routes>
 
-        <Footer />
     </div>
   )
 }
