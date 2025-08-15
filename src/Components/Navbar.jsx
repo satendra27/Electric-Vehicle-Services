@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 import user_img from '../assets/download.png';
 import logo from '../assets/logo1.png';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate()
 
   // useEffect(() => {
   //   const auth = getAuth();
@@ -21,6 +23,15 @@ const Navbar = () => {
   //     }
   //   });
   // }, []);
+
+   const handleProtectedClick = (path) => {
+    if (!user) {
+      toast.error("Please login first!");
+      navigate("/Login"); // optional: send them to login page
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <div className="flex justify-between items-center p-3 border-b border-gray-300 relative">
@@ -37,9 +48,12 @@ const Navbar = () => {
 
       {/* Small screen buttons */}
       <div className="flex items-center gap-4 md:hidden mr-4">
-        <Link to="/book" className="p-2 bg-blue-800 text-white rounded text-sm">
+        <button
+          onClick={() => handleProtectedClick("/book")}
+          className="p-2 bg-blue-800 text-white rounded text-sm"
+        >
           Book Now
-        </Link>
+        </button>
         <i className="fa-regular fa-bell bg-gray-100 p-2 rounded text-sm"></i>
         <button onClick={() => setMenuOpen(!menuOpen)}>
           <i className="fa-solid fa-bars text-xl"></i>
@@ -54,9 +68,12 @@ const Navbar = () => {
           <li>About Us</li>
           <li><a href="#footer">Contact</a></li>
           <li>
-            <Link to="/book" className="p-2 bg-blue-800 text-white rounded text-sm">
+            <button
+              onClick={() => handleProtectedClick("/book")}
+              className="p-2 bg-blue-800 text-white rounded text-sm"
+            >
               Book Now
-            </Link>
+            </button>
           </li>
           <li>
             <i className="fa-regular fa-bell bg-gray-100 p-2 rounded"></i>

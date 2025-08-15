@@ -4,6 +4,7 @@ import Signup from './Signup';
 const Login = () => {
 
     const [Login,setLogin] = useState(1);
+    const [ViewPassword,setViewPassword] = useState(false);
     return (
         <div className='sm:flex bg-[#f0fcf4] flex-col sm:flex-row items-center'>
             <div className='sm:w-[50%] p-10'>
@@ -11,22 +12,22 @@ const Login = () => {
                 <div className='text-4xl lg:text-6xl font-bold text-gray-900 leading-tight my-4'><h1 className='text-[#111826]'>Welcome to Your <span className='bg-gradient-to-r from-blue-600 via-green-600 to-cyan-600 bg-clip-text text-transparent'>EV BUDDY</span></h1></div>
                 <div className='text-xl text-gray-600 leading-relaxed my-4'><p>Join thousands of EV owners in Jaipur who trust us for 24/7 emergency charging, maintenance, and care with authentic Rajasthani hospitality! 🚗⚡</p></div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
-                    <div class="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield h-6 w-6 text-blue-600"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div>
-                        <div><div class="font-semibold text-gray-900">24/7 Service</div>
-                            <div class="text-sm text-gray-600">Always Available</div></div></div>
-                    <div class="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
-                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg></div>
-                        <div><div class="font-semibold text-gray-900">Certified Buddies</div><div class="text-sm text-gray-600">Expert Technicians</div></div></div>
-                    <div class="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-6 w-6 text-purple-600"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg></div>
-                        <div><div class="font-semibold text-gray-900">4.8★ Rating</div><div class="text-sm text-gray-600">Customer Love</div></div></div><div class="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg"><div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-6 w-6 text-orange-600"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></div><div><div class="font-semibold text-gray-900">2500+ Bookings</div><div class="text-sm text-gray-600">Trusted Service</div></div></div></div>
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
+                    <div className="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield h-6 w-6 text-blue-600"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div>
+                        <div><div className="font-semibold text-gray-900">24/7 Service</div>
+                            <div className="text-sm text-gray-600">Always Available</div></div></div>
+                    <div className="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+                        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-circle-check-big h-6 w-6 text-green-600"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg></div>
+                        <div><div className="font-semibold text-gray-900">Certified Buddies</div><div className="text-sm text-gray-600">Expert Technicians</div></div></div>
+                    <div className="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-star h-6 w-6 text-purple-600"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg></div>
+                        <div><div className="font-semibold text-gray-900">4.8★ Rating</div><div className="text-sm text-gray-600">Customer Love</div></div></div><div className="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg"><div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart h-6 w-6 text-orange-600"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></div><div><div className="font-semibold text-gray-900">2500+ Bookings</div><div className="text-sm text-gray-600">Trusted Service</div></div></div></div>
             </div>
             {Login === 1 && (<div className='sm:w-[50%] bg-white my-4 sm:my-4 mx-4 sm:mx-[100px] p-4 rounded-md'>
-                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 text-center space-y-4">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center mx-auto"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user h-8 w-8 text-white"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><div data-slot="card-title" class="text-2xl font-bold text-gray-900">Welcome Back!</div>
-                    <p class="text-gray-600">Sign in to access your EV buddy dashboard</p>
+                <div data-slot="card-header" className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 text-center space-y-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center mx-auto"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user h-8 w-8 text-white"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><div data-slot="card-title" className="text-2xl font-bold text-gray-900">Welcome Back!</div>
+                    <p className="text-gray-600">Sign in to access your EV buddy dashboard</p>
                     <form className="space-y-4">
                         <div className="space-y-2">
                             <label
@@ -89,7 +90,7 @@ const Login = () => {
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                 </svg>
                                 <input
-                                    type="password"
+                                    type={ViewPassword?"text":"password"}
                                     data-slot="input"
                                     className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 flex w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 pr-10 h-12 bg-white border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                                     id="password"
@@ -113,6 +114,7 @@ const Login = () => {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         className="lucide lucide-eye h-5 w-5"
+                                        onClick={()=>setViewPassword(!ViewPassword)}
                                     >
                                         <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
                                         <circle cx={12} cy={12} r={3} />
@@ -134,7 +136,7 @@ const Login = () => {
                         </div>
                         <button
                             data-slot="button"
-                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary hover:bg-primary/90 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold shadow-lg transform hover:scale-105 transition-all duration-200"
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([className*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary hover:bg-primary/90 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold shadow-lg transform hover:scale-105 transition-all duration-200"
                             type="submit"
                         >
                             Sign In
@@ -170,7 +172,7 @@ const Login = () => {
                         <div className="space-y-3">
                             <button
                                 data-slot="button"
-                                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-white border-2 border-gray-200 hover:bg-gray-50"
+                                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([className*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-white border-2 border-gray-200 hover:bg-gray-50"
                             >
                                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                                     <path
