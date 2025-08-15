@@ -6,6 +6,7 @@ import { User } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Navigate, useNavigate } from 'react-router-dom';
+import { handleGoogleSignIn } from "../utils/authFunctions";
 
 
 
@@ -84,36 +85,36 @@ const Signup = ({ setLogin }) => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
+//   const handleGoogleSignIn = async () => {
+//   try {
+//     const provider = new GoogleAuthProvider();
+//     const result = await signInWithPopup(auth, provider);
 
-    const user = result.user;
+//     const user = result.user;
 
-    // Check if user already exists in Firestore
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
+//     // Check if user already exists in Firestore
+//     const userRef = doc(db, "users", user.uid);
+//     const userSnap = await getDoc(userRef);
 
-    if (!userSnap.exists()) {
-      // Save user in Firestore if new
-      await setDoc(userRef, {
-        name: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-        userType: "Service Seeker", // You can set default role
-      });
-    }
+//     if (!userSnap.exists()) {
+//       // Save user in Firestore if new
+//       await setDoc(userRef, {
+//         name: user.displayName,
+//         email: user.email,
+//         photoURL: user.photoURL,
+//         userType: "Service Seeker", // You can set default role
+//       });
+//     }
 
-    console.log("Google Sign-In successful:", user);
-    toast.success("Signed in with Google!");
-    navigate("/")
+//     console.log("Google Sign-In successful:", user);
+//     toast.success("Signed in with Google!");
+//     navigate("/")
     
-  } catch (error) {
-    console.error("Google Sign-In error:", error);
-    toast.error(error.message);
-  }
-};
+//   } catch (error) {
+//     console.error("Google Sign-In error:", error);
+//     toast.error(error.message);
+//   }
+// };
 
 
 
@@ -403,7 +404,7 @@ const Signup = ({ setLogin }) => {
           </div>
           <div className="space-y-3">
             <button
-              data-slot="button" onClick={handleGoogleSignIn}
+              data-slot="button" onClick={()=>handleGoogleSignIn(navigate)}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-white border-2 border-gray-200 hover:bg-gray-50"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import Signup from './Signup';
+import { handleGoogleSignIn } from "../utils/authFunctions";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
     const [Login,setLogin] = useState(1);
     const [ViewPassword,setViewPassword] = useState(false);
+    const navigate = useNavigate()
     return (
         <div className='sm:flex bg-[#f0fcf4] flex-col sm:flex-row items-center'>
             <div className='sm:w-[50%] p-10'>
@@ -171,7 +174,7 @@ const Login = () => {
                         </div>
                         <div className="space-y-3">
                             <button
-                                data-slot="button"
+                                data-slot="button" onClick={()=>handleGoogleSignIn(navigate)}
                                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([className*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-white border-2 border-gray-200 hover:bg-gray-50"
                             >
                                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
