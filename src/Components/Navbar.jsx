@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import user_img from '../assets/download.png';
 import logo from '../assets/logo1.png';
 import { toast } from 'react-toastify';
@@ -10,19 +10,19 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   const auth = getAuth();
-  //   onAuthStateChanged(auth, (currentUser) => {
-  //     if (currentUser) {
-  //       setUser({
-  //         name: currentUser.displayName || "User",
-  //         photo: currentUser.photoURL || user_img
-  //       });
-  //     } else {
-  //       setUser(null);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser({
+          name: currentUser.displayName || "user",
+          photo: currentUser.photoURL || user_img
+        });
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
 
    const handleProtectedClick = (path) => {
     if (!user) {

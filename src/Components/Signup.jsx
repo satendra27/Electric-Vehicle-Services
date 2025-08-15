@@ -1,12 +1,90 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
-import { auth,db } from '../assets/firebase';
-import {setDoc,doc,getDoc} from 'firebase/firestore';
+import { auth, db } from '../assets/firebase';
+import { setDoc, doc, getDoc } from 'firebase/firestore';
 import { User } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const handleGoogleSignIn = async () => {
+
+
+
+
+const Signup = ({ setLogin }) => {
+  const [ViewPassword, setViewPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [userType, setUserType] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    console.log({ name, email, phone, password, confirmPassword });
+
+    // Basic field validation
+    if (!name || !email || !phone || !password || !confirmPassword) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
+    try {
+      // Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      // Save user details in Firestore
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        userType: userType
+      });
+
+      toast.success("Signup successful!");
+      console.log("User registered successfully:", userCredential.user);
+      navigate("/")
+
+      setError(""); // clear error
+    } catch (err) {
+      console.error("Firebase signup error:", err);
+
+      // Show specific error messages
+      switch (err.code) {
+        case "auth/email-already-in-use":
+          toast.error("This email is already registered");
+          break;
+        case "auth/invalid-email":
+          toast.error("Invalid email address");
+          break;
+        case "auth/weak-password":
+          toast.error("Password is too weak");
+          break;
+        case "auth/invalid-phone-number":
+          toast.error("Invalid phone number format");
+          break;
+        default:
+          toast.error(err.message || "Signup failed. Please try again.");
+      }
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
   try {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
@@ -29,82 +107,11 @@ const handleGoogleSignIn = async () => {
 
     console.log("Google Sign-In successful:", user);
     toast.success("Signed in with Google!");
+    navigate("/")
     
   } catch (error) {
     console.error("Google Sign-In error:", error);
     toast.error(error.message);
-  }
-};
-
-
-
-const Signup = ({ setLogin }) => {
-  const [ViewPassword, setViewPassword] = useState(false);
-  const [name, setName] = useState("");
-  const [userType, setUserType] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-
-const handleRegister = async (e) => {
-  e.preventDefault();
-
-  console.log({ name, email, phone, password, confirmPassword });
-
-  // Basic field validation
-  if (!name || !email || !phone || !password || !confirmPassword) {
-    toast.error("All fields are required");
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    toast.error("Passwords do not match");
-    return;
-  }
-
-  if (password.length < 6) {
-    toast.error("Password must be at least 6 characters long");
-    return;
-  }
-
-  try {
-    // Create user in Firebase Auth
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-    // Save user details in Firestore
-    await setDoc(doc(db, "users", userCredential.user.uid), {
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      userType: userType
-    });
-
-    toast.success("Signup successful!");
-    console.log("User registered successfully:", userCredential.user);
-
-    setError(""); // clear error
-  } catch (err) {
-    console.error("Firebase signup error:", err);
-
-    // Show specific error messages
-    switch (err.code) {
-      case "auth/email-already-in-use":
-        toast.error("This email is already registered");
-        break;
-      case "auth/invalid-email":
-        toast.error("Invalid email address");
-        break;
-      case "auth/weak-password":
-        toast.error("Password is too weak");
-        break;
-      case "auth/invalid-phone-number":
-        toast.error("Invalid phone number format");
-        break;
-      default:
-        toast.error(err.message || "Signup failed. Please try again.");
-    }
   }
 };
 
