@@ -12,6 +12,7 @@ import Book from './Components/Book'
 import ServiceForm from './Components/ServiceForm'
 import Login from './Components/Login'
 import Dashboard from './Components/Dashboard';
+import ForgotPassword from './Components/ForgetPassword';
 
 const App = () => {
   return (
@@ -46,6 +47,8 @@ const App = () => {
         <Dashboard/>
         </>
         }/>
+
+  <Route path="/forgot-password" element={<ForgotPassword />} />
 </Routes>
 <ToastContainer/>
     </div>

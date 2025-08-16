@@ -2,12 +2,53 @@ import React, { useState } from 'react'
 import Signup from './Signup';
 import { handleGoogleSignIn } from "../utils/authFunctions";
 import { useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 const Login = () => {
 
-    const [Login,setLogin] = useState(1);
-    const [ViewPassword,setViewPassword] = useState(false);
+    const [Login, setLogin] = useState(1);
+    const [ViewPassword, setViewPassword] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate()
+
+   const handleLogin = async (e) => {
+  e.preventDefault();
+  const auth = getAuth();
+
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    toast.success("Login successful!");
+    console.log("Logged in user:", userCredential.user);
+    navigate("/"); // redirect to homepage or dashboard
+  } catch (error) {
+    let errorMessage = "Something went wrong. Please try again.";
+
+    switch (error.code) {
+      case "auth/invalid-email":
+        errorMessage = "Invalid email address.";
+        break;
+      case "auth/user-disabled":
+        errorMessage = "This account has been disabled.";
+        break;
+      case "auth/user-not-found":
+        errorMessage = "No account found with this email.";
+        break;
+      case "auth/wrong-password":
+        errorMessage = "Incorrect password. Please try again.";
+        break;
+      default:
+        errorMessage = "Login failed. Please check your credentials.";
+    }
+
+    toast.error(errorMessage);
+  }
+};
+
+
+
     return (
         <div className='sm:flex bg-[#f0fcf4] flex-col sm:flex-row items-center'>
             <div className='sm:w-[50%] p-10'>
@@ -31,7 +72,7 @@ const Login = () => {
                 <div data-slot="card-header" className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 text-center space-y-4">
                     <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center mx-auto"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user h-8 w-8 text-white"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><div data-slot="card-title" className="text-2xl font-bold text-gray-900">Welcome Back!</div>
                     <p className="text-gray-600">Sign in to access your EV buddy dashboard</p>
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleLogin}>
                         <div className="space-y-2">
                             <label
                                 data-slot="label"
@@ -64,7 +105,8 @@ const Login = () => {
                                     placeholder="Enter your email"
                                     required=""
                                     name="email"
-                                    defaultValue=""
+                                    value={email}
+                                    onChange={(e)=>setEmail(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -93,14 +135,15 @@ const Login = () => {
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                 </svg>
                                 <input
-                                    type={ViewPassword?"text":"password"}
+                                    type={ViewPassword ? "text" : "password"}
                                     data-slot="input"
                                     className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 flex w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 pr-10 h-12 bg-white border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                                     id="password"
                                     placeholder="Enter your password"
                                     required=""
                                     name="password"
-                                    defaultValue=""
+                                    value={password}
+                                    onChange={(e)=>setPassword(e.target.value)}
                                 />
                                 <button
                                     type="button"
@@ -117,7 +160,7 @@ const Login = () => {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         className="lucide lucide-eye h-5 w-5"
-                                        onClick={()=>setViewPassword(!ViewPassword)}
+                                        onClick={() => setViewPassword(!ViewPassword)}
                                     >
                                         <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
                                         <circle cx={12} cy={12} r={3} />
@@ -126,16 +169,15 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="flex items-center justify-between">
-                            <label className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                />
-                                <span className="ml-2 text-sm text-gray-600">Remember me</span>
-                            </label>
-                            <a href="#" className="text-sm text-blue-600 hover:text-blue-800">
-                                Forgot password?
-                            </a>
+                            
+                            <p className="mt-2">
+  <Link
+    to="/forgot-password"
+    className="text-sm text-blue-600 hover:text-blue-800"
+  >
+    Forgot password?
+  </Link>
+</p>
                         </div>
                         <button
                             data-slot="button"
@@ -174,7 +216,7 @@ const Login = () => {
                         </div>
                         <div className="space-y-3">
                             <button
-                                data-slot="button" onClick={()=>handleGoogleSignIn(navigate)}
+                                data-slot="button" onClick={() => handleGoogleSignIn(navigate)}
                                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([className*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-white border-2 border-gray-200 hover:bg-gray-50"
                             >
                                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -202,7 +244,7 @@ const Login = () => {
                         <div className="text-center">
                             <p className="text-sm text-gray-600">
                                 Don't have an account?{/* */}{" "}
-                                <button className="text-blue-600 hover:text-blue-800 font-semibold" onClick={()=>setLogin(2)}>
+                                <button className="text-blue-600 hover:text-blue-800 font-semibold" onClick={() => setLogin(2)}>
                                     Sign up
                                 </button>
                             </p>
@@ -211,7 +253,7 @@ const Login = () => {
 
                 </div>
             </div>)}
-            {Login===2 && (<Signup setLogin={setLogin}/>)}
+            {Login === 2 && (<Signup setLogin={setLogin} />)}
         </div>
     )
 }
