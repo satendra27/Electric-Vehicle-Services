@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './Components/Navbar';
-import Navbar_ServiceProvider from './Service Provider/Navbar_ServiceProvider';
+import Navbar_ServiceProvider from './ServiceProvider/Navbar_ServiceProvider';
 import {Toaster} from "react-hot-toast"
 import Header from './Components/Header';
 import Data from './Components/Data';
@@ -15,19 +15,19 @@ import Login from './Components/Login';
 import Dashboard from './Components/CustomerDashboard';
 import ForgotPassword from './Components/ForgetPassword';
 import ProfileSetup from './Components/ProfileSetup';
-import Home_ServiceProvider from './Service Provider/Home_ServiceProvider';
+import Home_ServiceProvider from './ServiceProvider/Home_ServiceProvider';
 import { AuthContext } from "./Context/AuthContext";
 import Earnings from './Service Provider/Earnings';
-import ServiceRequests from './Service Provider/ServiceRequests';
+import ServiceRequests from './ServiceProvider/ServiceRequests';
 import MyBookings from './Components/MyBookings';
 import Profile from './Components/Profile';
-import Profile_ServiceProvider from './Service Provider/Profile';
+import Profile_ServiceProvider from './ServiceProvider/Profile';
 import CustomerQuotes from "../src/Components/CustomerQuotes";
-import Notifications from './Service Provider/Notifications';
+import Notifications from './ServiceProvider/Notifications';
 import TrackOrder from "../src/Components/TrackOrder";
 import TrackOrderPage from './Components/TrackOrderPage';
 import HelpCenterCustomer from './Components/HelpCenterCustomer';
-import HelpCenterProvider from './Service Provider/HelpCenterProvider';
+import HelpCenterProvider from './ServiceProvider/HelpCenterProvider';
 import CustomerOTP from './Components/CustomerOTP';
 
 const App = () => {
