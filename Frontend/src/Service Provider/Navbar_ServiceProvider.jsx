@@ -1,9 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import user_img from "../assets/download.png";
 import logo from '../assets/logo1.png';
 import { toast } from 'react-hot-toast';
-import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 
 
@@ -13,6 +12,8 @@ const Navbar_ServiceProvider = () => {
   const [profileDropdown, setProfileDropdown] = useState(false);
   const navigate = useNavigate();
 const [notifCount, setNotifCount] = useState(0);
+const profileRef = useRef(null);
+
 
 const fetchNotifications = async () => {
   const token = localStorage.getItem("token");
@@ -50,6 +51,22 @@ const fetchNotifications = async () => {
     setProfileDropdown(false);
   };
 
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      profileRef.current &&
+      !profileRef.current.contains(event.target)
+    ) {
+      setProfileDropdown(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
   return (
     <div className="flex justify-between items-center p-3 border-b border-gray-300 relative">
@@ -81,7 +98,7 @@ const fetchNotifications = async () => {
 
           {/* 🔥 Conditional Login / Profile */}
           {user ? (
-            <li className="relative">
+            <li className="relative" ref={profileRef}>
               <img
                 src={user?.photo || user_img}
                 alt="user"
