@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import user_img from "../assets/Download.png";
+import user_img from "../assets/download.png";
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 
