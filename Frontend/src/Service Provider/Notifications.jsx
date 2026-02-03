@@ -8,8 +8,11 @@ const Notifications = () => {
   /* ---------------- FETCH ---------------- */
   const fetchNotifications = async () => {
     const token = localStorage.getItem("token");
+    if (!token) return;
 
     try {
+      setLoading(true);
+
       const res = await fetch(
         "https://electric-vehicle-services.onrender.com/api/auth/notifications",
         {
@@ -18,11 +21,32 @@ const Notifications = () => {
       );
 
       const data = await res.json();
-      setNotifications(data || []);
+      setNotifications(Array.isArray(data) ? data : []);
     } catch {
       toast.error("Failed to load notifications");
     } finally {
       setLoading(false);
+    }
+  };
+
+  /* ---------------- MARK ALL AS READ ---------------- */
+  const markAllAsRead = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      await fetch(
+        "https://electric-vehicle-services.onrender.com/api/auth/notifications/read",
+        {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      // 🔔 update navbar count
+      window.dispatchEvent(new Event("notifications-updated"));
+    } catch {
+      console.error("Failed to mark notifications as read");
     }
   };
 
@@ -44,58 +68,54 @@ const Notifications = () => {
 
       toast.success("All notifications cleared");
       setNotifications([]);
-window.dispatchEvent(new Event("notifications-updated"));
 
+      window.dispatchEvent(new Event("notifications-updated"));
     } catch {
       toast.error("Failed to clear notifications");
     }
   };
 
-  /* ---------------- REMOVE SINGLE (PERMANENT) ---------------- */
-const removeSingleNotification = async (notificationId) => {
-  const token = localStorage.getItem("token");
+  /* ---------------- REMOVE SINGLE ---------------- */
+  const removeSingleNotification = async (notificationId) => {
+    const token = localStorage.getItem("token");
 
-  try {
-    const res = await fetch(
-      `https://electric-vehicle-services.onrender.com/api/auth/notifications/${notificationId}`,
-      {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    try {
+      const res = await fetch(
+        `https://electric-vehicle-services.onrender.com/api/auth/notifications/${notificationId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-    const data = await res.json();
-    if (!res.ok) return toast.error(data.message);
+      const data = await res.json();
+      if (!res.ok) return toast.error(data.message);
 
-    setNotifications((prev) =>
-      prev.filter((n) => n._id !== notificationId)
-    );
+      setNotifications((prev) =>
+        prev.filter((n) => n._id !== notificationId)
+      );
 
-    // 🔔 notify navbar to refresh count
-    window.dispatchEvent(new Event("notifications-updated"));
-
-    toast.success("Notification removed");
-  } catch {
-    toast.error("Failed to remove notification");
-  }
-};
-
-
-useEffect(() => {
-  if (!user) return;
-
-  fetchNotifications(); // initial fetch
-
-  const handleUpdate = () => fetchNotifications();
-
-  window.addEventListener("notifications-updated", handleUpdate);
-
-  return () => {
-    window.removeEventListener("notifications-updated", handleUpdate);
+      window.dispatchEvent(new Event("notifications-updated"));
+      toast.success("Notification removed");
+    } catch {
+      toast.error("Failed to remove notification");
+    }
   };
-}, [user]);
 
+  /* ---------------- EFFECTS ---------------- */
+  useEffect(() => {
+    fetchNotifications();
+    markAllAsRead();
 
+    const handleUpdate = () => fetchNotifications();
+    window.addEventListener("notifications-updated", handleUpdate);
+
+    return () => {
+      window.removeEventListener("notifications-updated", handleUpdate);
+    };
+  }, []);
+
+  /* ---------------- UI ---------------- */
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#eef7f3] to-[#f9fbff] p-4 sm:p-8">
       {/* HEADER */}
@@ -144,22 +164,11 @@ useEffect(() => {
           {notifications.map((note) => (
             <div
               key={note._id}
-              className="
-                relative bg-white rounded-2xl shadow
-                p-5 pl-6 pr-12 border-l-4 border-blue-500
-                hover:shadow-lg transition
-              "
+              className="relative bg-white rounded-2xl shadow p-5 pl-6 pr-12 border-l-4 border-blue-500 hover:shadow-lg transition"
             >
-              {/* ❌ Remove single notification */}
               <button
                 onClick={() => removeSingleNotification(note._id)}
-                className="
-                  absolute top-4 right-4
-                  w-8 h-8 rounded-full
-                  flex items-center justify-center
-                  text-gray-400 hover:text-red-600
-                  hover:bg-red-50 transition
-                "
+                className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition"
                 title="Dismiss notification"
               >
                 ✕
@@ -169,10 +178,11 @@ useEffect(() => {
                 {note.message}
               </p>
               <p className="text-xs text-gray-500 mt-2">
-                {new Date(note.createdAt || note.time || note.date).toLocaleString()}
+                {new Date(
+                  note.createdAt || note.time || note.date
+                ).toLocaleString()}
               </p>
 
-              {/* unread dot */}
               {!note.read && (
                 <span className="absolute top-5 left-2 w-2 h-2 bg-blue-500 rounded-full" />
               )}
