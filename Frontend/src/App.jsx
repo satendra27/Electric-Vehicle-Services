@@ -17,7 +17,7 @@ import ForgotPassword from './Components/ForgetPassword';
 import ProfileSetup from './Components/ProfileSetup';
 import Home_ServiceProvider from './ServiceProvider/Home_ServiceProvider';
 import { AuthContext } from "./Context/AuthContext";
-import Earnings from './Service Provider/Earnings';
+import Earnings from './ServiceProvider/Earnings';
 import ServiceRequests from './ServiceProvider/ServiceRequests';
 import MyBookings from './Components/MyBookings';
 import Profile from './Components/Profile';
