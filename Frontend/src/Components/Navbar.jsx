@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import user_img from '../assets/download.png';
 import logo from '../assets/logo1.png';
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 
