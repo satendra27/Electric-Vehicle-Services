@@ -1,7 +1,9 @@
 import React from "react";
 import header_img from "../assets/Header img.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <div className="mt-4 flex justify-center">
       <div className="relative w-[92%] lg:w-[85%] h-[460px] sm:h-[520px] rounded-[32px] overflow-hidden shadow-2xl">
@@ -53,7 +55,7 @@ const Header = () => {
             <div className="mt-6 flex flex-col sm:flex-row gap-4 bg-white/10 backdrop-blur-lg p-4 rounded-2xl border border-white/20 w-fit">
 
               {/* Primary CTA */}
-              <button className="px-8 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold transition-all duration-300 shadow-lg hover:scale-[1.02]">
+              <button onClick={() => navigate("/my-bookings")} className="px-8 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold transition-all duration-300 shadow-lg hover:scale-[1.02]">
                 ⚡ Book Your Buddy
               </button>
 
