@@ -254,7 +254,6 @@ const { setUser } = useContext(AuthContext);
 </button>
 
                     </form>
-                    <>
                         
                         
                         <div className="text-center">
@@ -265,7 +264,6 @@ const { setUser } = useContext(AuthContext);
                                 </button>
                             </p>
                         </div>
-                    </>
 
                 </div>
             </div>)}

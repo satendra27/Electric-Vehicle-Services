@@ -57,7 +57,10 @@ router.get("/bookings/pending", authMiddleware, requireProvider, async (req, res
     const providerLat = provider.workingArea.latitude;
     const providerLon = provider.workingArea.longitude;
 
-    const pending = await Booking.find({ status: "pending" }).populate("customer", "name phone");
+    const pending = await Booking.find({
+  status: "pending",
+  "quotes.provider": { $ne: req.user.id }
+}).populate("customer", "name phone");
 
     const result = pending.map((booking) => {
       const distance = calculateDistance(
@@ -104,18 +107,30 @@ router.post("/bookings/:id/reject", authMiddleware, requireProvider, async (req,
   try {
     const booking = await Booking.findById(req.params.id);
     if (!booking) return res.status(404).json({ message: "Booking not found" });
-    if (booking.status !== "pending") return res.status(400).json({ message: "Not pending" });
 
-    booking.status = "rejected";
-    booking.assignedProvider = req.user.id;
-    booking.providerResponseAt = new Date();
+    const alreadyResponded = booking.quotes.find(
+      q => q.provider.toString() === req.user.id
+    );
+
+    if (alreadyResponded)
+      return res.status(400).json({ message: "Already responded" });
+
+    booking.quotes.push({
+      provider: req.user.id,
+      price: 0,
+      status: "rejected"
+    });
+
+    // 🔥 DO NOT change booking.status
     await booking.save();
 
-    res.json({ message: "Booking rejected", booking });
+    res.json({ message: "Request rejected" });
+
   } catch (err) {
     res.status(500).json({ message: "Server error rejecting booking" });
   }
 });
+
 
 // 4. Complete booking
 router.post("/bookings/:id/complete", authMiddleware, requireProvider, async (req, res) => {
@@ -152,41 +167,35 @@ router.get("/bookings/accepted", authMiddleware, requireProvider, async (req, re
 router.post("/bookings/:id/quote", authMiddleware, requireProvider, async (req, res) => {
   try {
     const { price } = req.body;
-    const bookingId = req.params.id;
+    const booking = await Booking.findById(req.params.id);
 
-    const booking = await Booking.findById(bookingId).populate("customer");
     if (!booking) return res.status(404).json({ message: "Booking not found" });
 
-    // Add quote
+    // prevent duplicate quote
+    const alreadyQuoted = booking.quotes.find(
+      q => q.provider.toString() === req.user.id
+    );
+
+    if (alreadyQuoted)
+      return res.status(400).json({ message: "You already responded" });
+
     booking.quotes.push({
       provider: req.user.id,
       price,
-      time: new Date()
+      status: "pending"
     });
-    booking.status = "quoted"; // Booking waiting for customer decision
+
+    // 🔥 DO NOT CHANGE booking.status
     await booking.save();
 
-    // 🔔 Create notification for customer
-    await User.findByIdAndUpdate(
-      booking.customer._id,
-      {
-        $push: {
-          notifications: {
-            message: `New price quote received for ${booking.service}: ₹${price}`,
-            time: new Date(),
-            read: false,
-            bookingId: booking._id,
-          }
-        }
-      }
-    );
+    res.json({ message: "Quote sent" });
 
-    res.json({ message: "Quote sent", booking });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Error sending quote" });
   }
 });
+
 
 // 📌 Get all service history for provider
 router.get("/service-history", authMiddleware, requireProvider, async (req, res) => {
