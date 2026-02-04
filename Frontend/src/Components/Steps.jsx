@@ -1,65 +1,96 @@
-import React from 'react';
+import React from "react";
 
 const Steps = () => {
-    const stepData = [
-        {
-            id: 1,
-            icon: 'fa-phone',
-            title: 'Book Your Buddy',
-            desc: "Call, WhatsApp, or use our app to book your EV buddy. Tell us your location and what you need - we'll handle the rest!",
-            color: 'bg-[#1e6cff]',
-        },
-        {
-            id: 2,
-            icon: 'fa-truck',
-            title: 'Buddy On The Way',
-            desc: "Your certified EV buddy gets dispatched immediately. Track their live location and get real-time updates on arrival time.",
-            color: 'bg-[#00bf63]',
-        },
-        {
-            id: 3,
-            icon: 'fa-circle-check',
-            title: 'Problem Solved!',
-            desc: "Your buddy arrives with all necessary equipment, solves your EV problem, and ensures you're back on the road safely.",
-            color: 'bg-[#a349f3]',
-        },
-    ];
+  const stepData = [
+    {
+      id: 1,
+      icon: "fa-phone",
+      title: "Book Your Buddy",
+      desc: "Call, WhatsApp, or use our app to book your EV buddy. Share your location and issue — we handle the rest.",
+      gradient: "from-blue-500 to-indigo-500",
+    },
+    {
+      id: 2,
+      icon: "fa-truck",
+      title: "Buddy On The Way",
+      desc: "A certified EV buddy is dispatched instantly. Track live location and get real-time arrival updates.",
+      gradient: "from-green-500 to-emerald-500",
+    },
+    {
+      id: 3,
+      icon: "fa-circle-check",
+      title: "Problem Solved",
+      desc: "Your buddy arrives fully equipped, fixes the issue, and gets you safely back on the road.",
+      gradient: "from-purple-500 to-pink-500",
+    },
+  ];
 
-    return (
-        <div className="bg-[#f8f9fb] py-10 px-4" id='HIW'>
-            <div className="bg-green-100 p-3 w-fit text-center rounded-md mx-auto mb-4 text-green-700 font-medium shadow">
-                📱 Simple 3-Step Process
+  return (
+    <section
+      id="HIW"
+      className="py-20 px-4 bg-gradient-to-br from-[#f7fbff] to-[#f9fff9]"
+    >
+      {/* HEADER */}
+      <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-100 text-green-700 text-sm font-semibold mb-4">
+          📱 Simple 3-Step Process
+        </div>
+
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+          How Your{" "}
+          <span className="bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent">
+            EV Buddy
+          </span>{" "}
+          Works
+        </h2>
+
+        <p className="text-gray-600 mt-4 text-sm sm:text-base">
+          Getting help for your EV is effortless. Experience professional care
+          with the warmth of authentic Rajasthani hospitality.
+        </p>
+      </div>
+
+      {/* STEPS */}
+      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+        {stepData.map((step) => (
+          <div
+            key={step.id}
+            className="
+              relative bg-white/80 backdrop-blur
+              rounded-3xl p-8 text-center
+              shadow-md border border-gray-100
+              transition-all duration-300
+              hover:shadow-2xl hover:-translate-y-2
+            "
+          >
+            {/* STEP NUMBER */}
+            <div className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold shadow">
+              {step.id}
             </div>
 
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">
-                How Your <span className="text-[#009f69]">EV BUDDY</span> Works
-            </h1>
+            {/* ICON */}
+            <div
+              className={`mx-auto mb-6 w-20 h-20 rounded-2xl flex items-center justify-center
+              bg-gradient-to-br ${step.gradient} text-white text-3xl shadow-lg`}
+            >
+              <i className={`fa-solid ${step.icon}`} />
+            </div>
 
-            <p className="text-gray-500 text-center max-w-2xl mx-auto mb-8">
-                Getting help for your EV is as simple as 1-2-3. Experience the royal treatment with authentic Rajasthani hospitality and professional EV care.
+            {/* CONTENT */}
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              {step.title}
+            </h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {step.desc}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                {stepData.map((step) => (
-                    <div key={step.id} className="p-6 rounded-full text-center ">
-                        <div className="relative flex justify-center mb-4">
-                            <div
-                                className={`text-white text-3xl w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center ${step.color} shadow-[0_0_20px_rgba(0,0,0,0.2)]`}
-                            >
-                                <i className={`fa-solid ${step.icon}`}></i>
-                            </div>
-                            <div className="absolute -top-2 -right-2 bg-red-500 text-white text-sm w-6 h-6 rounded-full flex items-center justify-center font-bold shadow">
-                                {step.id}
-                            </div>
-                        </div>
-
-                        <h2 className="text-xl font-bold mb-2">{step.title}</h2>
-                        <p className="text-gray-600">{step.desc}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+            {/* HOVER GLOW */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-green-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition pointer-events-none" />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 };
 
 export default Steps;
