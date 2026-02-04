@@ -303,44 +303,73 @@ const Signup = ({ setLogin }) => {
               </div>
             </div>
             <button
-              data-slot="button"
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary hover:bg-primary/90 px-4 py-2 has-[>svg]:px-3 w-full h-12 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold shadow-lg transform hover:scale-105 transition-all duration-200"
-              type="submit"
-            >
-              Create Account
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-arrow-right ml-2 h-5 w-5"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </button>
+  type="submit"
+  disabled={loading}
+  className={`
+    inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm
+    w-full h-12 text-white font-semibold shadow-lg transition-all duration-200
+    ${loading 
+      ? "bg-gray-400 cursor-not-allowed opacity-80"
+      : "bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 hover:scale-105"}
+  `}
+>
+  {loading ? (
+    <>
+      <svg
+        className="animate-spin h-5 w-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        />
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        />
+      </svg>
+      Creating Account...
+    </>
+  ) : (
+    <>
+      Create Account
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    </>
+  )}
+</button>
+
           </form>
-          <div className="relative">
-            <div
-              data-orientation="horizontal"
-              role="none"
-              data-slot="separator"
-              className="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
-            />
-          </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{/* */}{" "}
-              <button className="text-blue-600 hover:text-blue-800 font-semibold" onClick={() => setLogin(1)}>
-                Sign in
-              </button>
-            </p>
-          </div>
+          
+          
+          <div className="mt-6 text-center">
+  <p className="text-sm text-gray-600">
+    Already have an account?
+    <button
+      onClick={() => setLogin(1)}
+      className="ml-2 font-semibold text-blue-600 hover:text-blue-800 transition"
+    >
+      Sign in
+    </button>
+  </p>
+</div>
+
           <div className="text-center">
             <p className="text-xs text-gray-500">
               By creating an account, you agree to our{" "}
