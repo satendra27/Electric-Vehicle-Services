@@ -173,14 +173,15 @@ console.log(bookings)
 
               {/* ACTIONS */}
               <div className="flex gap-2 mt-5">
-                {booking.status === "quoted" && (
-                  <button
-                    onClick={() => navigate(`/quotes/${booking._id}`)}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg text-sm"
-                  >
-                    View Quotes
-                  </button>
-                )}
+                {booking.quotes && booking.quotes.length > 0 && booking.status !== "completed" && (
+  <button
+    className="mt-3 px-3 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+    onClick={() => navigate(`/quotes/${booking._id}`)}
+  >
+    View Quotes ({booking.quotes.length})
+  </button>
+)}
+
 
                 {booking.status === "pending" && (
                   <button

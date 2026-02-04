@@ -60,7 +60,10 @@ router.post("/create", authMiddleware, async (req, res) => {
 ------------------------------------ */
 router.get("/my-bookings", authMiddleware, async (req, res) => {
   try {
-    const bookings = await Booking.find({ customer: req.user.id }).sort({ createdAt: -1 });
+   const bookings = await Booking.find({ customer: req.user.id })
+  .populate("quotes.provider", "name")
+  .sort({ createdAt: -1 });
+
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: "Server error while fetching bookings" });
